@@ -1,0 +1,39 @@
+{% extends "layout.html" %} <!--layout.htmlを継承-->
+{% block content %} 
+<body>
+    <div class="container">
+        <h1 class="content_title">雰囲気でお店探しアプリ 🧐</h1>
+        <p class="text">
+            あなたが求める飲食店の雰囲気を教えてください。<br>
+            例: 「静かで落ち着いたカフェ」、「賑やかな居酒屋」、「家族向けの広々とした空間」
+        </p>
+
+        <!-- 入力フォーム -->
+        <!-- action属性でPOSTリクエストの送信先URLを指定し、method属性で送信方法をPOSTに指定します。 -->
+        <form action="{{ url_for('recommend_restaurant') }}" method="post">
+            <label for="atmosphereInput" class="block">
+                飲食店に求める雰囲気（短文テキスト）:
+            </label>
+            <!-- name属性がFlaskでデータを受け取る際のキーになります。 -->
+            <textarea
+                id="atmosphereInput"
+                name="atmosphere" 
+                class="input"
+                placeholder="例: デートに使えるおしゃれでロマンチックな場所"
+            >{{ request.form.atmosphere if request.form.atmosphere else '' }}</textarea>
+            <!-- type="submit"でフォームを送信します。 -->
+            <button type="submit">
+            お店を探す！ 🔍
+            </button>
+        </form>
+
+        <!-- エラーメッセージ表示エリア -->
+        {% if error_message %}
+        <div id="errorMessage" class="error-message mt-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg" role="alert">
+            <strong class="font-bold">エラー:</strong>
+            <span id="errorText">{{ error_message }}</span>
+        </div>
+        {% endif %}
+    </div>
+</body>
+{% endblock %} 

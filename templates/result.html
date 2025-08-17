@@ -1,0 +1,70 @@
+{% extends "layout.html" %} <!--layout.htmlを継承-->
+{% block content %} 
+<body>
+    <div class="container">
+        <!-- 結果表示エリア -->
+        <!-- Flaskからrecommended_restaurant変数がある場合にのみ表示されます。 -->
+        {% if recommended_restaurant %}
+        <div id="results">
+            <h2>✨ おすすめのお店 ✨</h2>
+            <div id="recommendedRestaurant">
+                <h3>{{ recommended_restaurant.name }}</h3>
+                <img src="{{ recommended_restaurant.exterior_image_url }}" alt="{{ recommended_restaurant.name }} 外観" class="w-full h-48 object-cover rounded-lg mb-4">
+                <p><strong>雰囲気:</strong> {{ recommended_restaurant.atmosphere_description }}</p>
+                <p><strong>メニュー:</strong> {{ recommended_restaurant.menu_text }}</p>
+                <img src="{{ recommended_restaurant.product_image_url }}" alt="{{ recommended_restaurant.name }} 商品イメージ" class="w-full h-32 object-cover rounded-lg mb-4">
+                <p><strong>平均価格:</strong> ¥{{ "{:,.0f}".format(recommended_restaurant.average_price) }}</p>
+                <p><strong>住所:</strong> {{ recommended_restaurant.address }}</p>
+                <p><strong>客層スコア:</strong> {{ recommended_restaurant.customer_demographics_score }} / 10</p>
+                <p><strong>マッチ度:</strong> {{ "{:.2f}".format(recommended_restaurant.similarity_score * 100) }}%</p>
+                
+                <!-- 感情分析の結果を表示する部分を追加 -->
+                {% if user_sentiment %}
+                <div>
+                    <strong>あなたの入力の感情:</strong> {{ user_sentiment.label }} (スコア: {{ "{:.2f}".format(user_sentiment.score) }})
+                    {% if user_sentiment.label == 'POSITIVE' %}
+                        😊 良い雰囲気ですね！
+                    {% elif user_sentiment.label == 'NEGATIVE' %}
+                        🙁 ネガティブな言葉が含まれていますね。より慎重に探します。
+                    {% else %}
+                        🤔 感情を判断できませんでした。
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            </div>
+
+            <h3>その他の上位候補</h3>
+            <div id="topRestaurantsList">
+                <!-- top_restaurantsリストをループして各お店の情報を表示します。 -->
+                {% for resto in top_restaurants %}
+                <div>
+                    <h4>{{ resto.name }}</h4>
+                    <img src="{{ resto.exterior_image_url }}" alt="{{ resto.name }} 外観" class="w-full h-24 object-cover rounded-lg mb-2">
+                    <p>{{ resto.atmosphere_description }}</p>
+                    <p><strong>マッチ度:</strong> {{ "{:.2f}".format(resto.similarity_score * 100) }}%</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div>
+                <a href="{{ url_for('search_form') }}" >
+                    もう一度検索する ↩️
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <!-- エラーメッセージ表示エリア -->
+        <!-- Flaskから渡されたerror_message変数がある場合にのみ表示されます。 -->
+        <div id="errorMessage" class="error" role="alert">
+            <strong>エラー:</strong>
+            <span id="errorText">{{ error_message }}</span>
+        </div>
+        <div>
+            <a href="{{ url_for('search_form') }}" >
+                検索ページに戻る ↩️
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+{% endblock %} 

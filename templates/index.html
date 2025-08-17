@@ -1,0 +1,14 @@
+{% extends "layout.html" %} <!--layout.htmlを継承-->
+{% block content %} <!--現在のテンプレート(index.html)を挿入-->
+
+<main>
+    <h1 class="content_title">〜 HTML/CSSゼミ 〜</h1><!--ページのタイトル-->
+    <div class="content">
+        <h1>雰囲気でお店探しアプリ</h1>
+        <div class="click_btn"><!--計算ページに移動することを促すボタン-->
+            <a href="{{ url_for('search_form') }}">検索ページへ</a><!--clackというボタンをクリックすると/calcというページに移動する-->
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+/* style.css */
+
+/* body要素のフォントと背景色を設定します。 */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8; /* 背景色 */
+}
+
+/* コンテナ要素の最大幅を設定し、中央寄せにします。 */
+.container {
+    max-width: 960px; /* コンテンツの最大幅 */
+}
+
+/* カスタムシャドウ効果を定義します。 */
+.shadow-lg-custom {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ロード中のスピナー（JavaScriptがないため、このCSSは現在使用されませんが必要に応じて残します） */
+.loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
